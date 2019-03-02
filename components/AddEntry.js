@@ -4,7 +4,9 @@ import { getMetricMetaInfo, timeToString } from "../utils/helpers";
 import UdaciSlider from "./UdaciSlider"
 import UdaciSteppers from "./UdaciSteppers"
 import DateHeader from "./DateHeader"
-
+import { Ionicons } from "@expo/vector-icons"
+import TextButton from './TextButton'
+import { submitEntry, removeEntry } from "../utils/api";
 
 function SubmitBtn({ onPress}) {
     return (
@@ -85,12 +87,40 @@ export default class AddEntry extends Component {
 
         // update redux
         // nav to home
-        //save to DB
+        submitEntry({ key, entry})
         // clear the local notifications
 
     }
+    reset = () => {
+        const key = timeToString()
+
+        // Update Redux
+        //Route to Home
+        removeEntry(key)
+
+    };
+
+
+
+
     render() {
 
+        if (this.props.alreadyLogged) {
+            return(
+                <View>
+                    <Ionicons name='ios-happy-outline' size={100}/>
+                    <Text>You already logged your information for toda</Text>
+                    <TextButton onPress={this.reset}>Reset</TextButton>
+
+                </View>
+
+
+
+            )
+
+
+
+        }
 
         const metaInfo = getMetricMetaInfo()
 
